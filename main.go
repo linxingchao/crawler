@@ -7,15 +7,21 @@ import (
 )
 
 func main() {
-	resp, err := http.Get("http://www.baidu.com")
+	url := "https://www.thepaper.cn/"
+	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("fetch url err: %v", err)
 		return
 	}
-	content, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
+
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		fmt.Printf("Error status code: %v", resp.StatusCode)
 	}
-	fmt.Println(string(content))
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("read content err: %v", err)
+	}
+	fmt.Println("body:", string(body))
 }
