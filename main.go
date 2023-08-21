@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func main() {
@@ -23,5 +24,6 @@ func main() {
 	if err != nil {
 		fmt.Printf("read content err: %v", err)
 	}
-	fmt.Println("body:", string(body))
+	numLinks := strings.Count(string(body), "<a")
+	fmt.Printf("homepage has %d links\n", numLinks)
 }
